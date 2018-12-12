@@ -21,7 +21,7 @@ the steps to build **gojs** are just pulling the related codes with go tool:
    2. and run the following command:
 
        ```bash
-       GOPATH=`pwd` go get https://github.com/jessevdk/go-flags
+       GOPATH=`pwd` go get github.com/jessevdk/go-flags
        GOPATH=`pwd` go get github.com/rosbit/duktape-bridge/duk-bridge-go
        GOPATH=`pwd` go get github.com/rosbit/gojs
        ```
