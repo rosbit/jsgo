@@ -13,13 +13,15 @@ Enjoy **gojs**.
 
 ### Build
 
-**gojs** only depends on [Duktape Bridge for Go](https://github.com/rosbit/duktape-bridge),
+**gojs** only depends on [Duktape Bridge for Go](https://github.com/rosbit/duktape-bridge)
+and [go-flags](https://github.com/jessevdk/go-flags),
 the steps to build **gojs** are just pulling the related codes with go tool:
 
    1. at any directory, `mkdir src`
    2. and run the following command:
 
        ```bash
+       GOPATH=`pwd` go get https://github.com/jessevdk/go-flags
        GOPATH=`pwd` go get github.com/rosbit/duktape-bridge/duk-bridge-go
        GOPATH=`pwd` go get github.com/rosbit/gojs
        ```
