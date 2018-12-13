@@ -21,7 +21,13 @@ func (log *http_access_log) End(w http.ResponseWriter, r *http.Request) {
 	endTime := time.Now()
 	duration := endTime.Sub(log.startTime)
 
-	addr := strings.Split(r.RemoteAddr, ":")
+	var addr string
+	pos := strings.LastIndex(r.RemoteAddr, ":")
+	if pos >= 0 {
+		addr = r.RemoteAddr[:pos]
+	} else {
+		addr = r.RemoteAddr
+	}
 	user := "-"
 	if r.URL.User != nil {
 		u := r.URL.User.Username()
@@ -47,7 +53,7 @@ func (log *http_access_log) End(w http.ResponseWriter, r *http.Request) {
 	status := resp.FieldByName("status")
 	written := resp.FieldByName("written")
 	fmt.Fprintf(os.Stderr, "%s - %s [%s] \"%s %s %s\" %v %v \"%s\" \"%s\" \"%s\" %v\n",
-        addr[0],
+        addr,
 		user,
         log.startTime.Format("2/Jan/2006:15:04:05 -0700"),
         r.Method, r.RequestURI, r.Proto,
