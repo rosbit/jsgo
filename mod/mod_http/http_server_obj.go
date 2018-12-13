@@ -20,6 +20,7 @@ type httpdHandlerParams struct {
 	w http.ResponseWriter
 	r *http.Request
 	done chan bool
+	log *http_access_log
 }
 
 type HttpServer struct {
@@ -100,13 +101,8 @@ func writeResult(w http.ResponseWriter, res interface{}) {
 	}
 }
 
-func (s *HttpServer) handleHttp(w http.ResponseWriter, r *http.Request) {
-	req := newJSRequest(r)
-	if req.Error != "" {
-		writeError(w, req.Error, http.StatusInternalServerError)
-		return
-	}
-
+func (s *HttpServer) handleHttp(w http.ResponseWriter, r *http.Request, log *http_access_log) {
+	req := newJSRequest(r, log)
 	reqMod, err := jsEnv.CreateEcmascriptModule(req)
 	if err != nil {
 		writeError(w, "Failed to create request module", http.StatusInternalServerError)
@@ -133,10 +129,14 @@ func (s *HttpServer) handleHttp(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *HttpServer) handleHttpProxy(w http.ResponseWriter, r *http.Request) {
+	log := NewHttpServing()
 	done := make(chan bool)
-	httpdParam := httpdHandlerParams{w, r, done}
+
+	httpdParam := httpdHandlerParams{w, r, done, log}
 	s.httpdHandlers <- httpdParam
+
 	<-done
+	log.End(w, r)
 	close(done)
 }
 
@@ -151,13 +151,13 @@ func (s *HttpServer) accept() {
 			if r == nil {
 				break
 			}
-			s.handleHttp(w, r)
+			s.handleHttp(w, r, httpdParam.log)
 			done <- true
 		}
 	}()
 
 	http.Serve(s.listener, sm)
-	s.httpdHandlers <- httpdHandlerParams{nil, nil, nil} // let the go-routine done
+	s.httpdHandlers <- httpdHandlerParams{nil, nil, nil, nil} // let the go-routine done
 
 	jsEnv.DestroyEcmascriptModule(s.jsMod)
 	jsEnv.DestroyEcmascriptFunc(s.jsCallback)
