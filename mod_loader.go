@@ -1,33 +1,29 @@
 package main
 
+import (
+	"fmt"
+)
+
 /**
  * a module loader.
  * Rosbit Xu <me@rosbit.cn>
  * Dec. 6, 2018
  */
 
-import (
-	js "github.com/rosbit/duktape-bridge/duk-bridge-go"
-	"github.com/rosbit/gojs/mod/mod_http"
-	"github.com/rosbit/gojs/mod/mod_fs"
-	"github.com/rosbit/gojs/mod/mod_url"
-)
-
-type fnNewModule func (*js.JSEnv) interface{}
-
-var (
-	mods = map[string]fnNewModule {
-		"http": mod_http.NewHttpModule,
-		"fs":   mod_fs.NewFsModule,
-		"url":  mod_url.NewUrlModule,
+func listModules() {
+	fmt.Printf("Built-in moduels in gojs\n")
+	i := 0
+	for m, _ := range mods {
+		i++
+		fmt.Printf(" #%d: %s\n", i, m)
 	}
-)
+}
 
 // ------------- implement interface GoModuleLoader -----------------
 type MinNodeModuleLoader struct {}
 
 func (loader *MinNodeModuleLoader) GetExtName() string {
-	return ".loader_for_only_http_module"
+	return ".loader_for_builtin_modules"
 }
 
 func (loader *MinNodeModuleLoader) LoadModule(modHome string, modName string) interface{} {

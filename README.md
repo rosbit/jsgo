@@ -7,7 +7,7 @@ framework related jobs with Go, and fulfill the changable logic in JS.
 
 **gojs** embeds the [Duktape](https://duktape.org) JavaScript, so it
 can be used as an Ecmascript E5/E5.1 interpreter. Right now, it contains some modules
-such as `http`, `fs`, `url`, etc. What I have done is just providing a sample of
+such as `http`, `fs`, `url`, `db`, etc. What I have done is just providing a sample of
 implementing a JavaScript module in Go. One can produce more modules if needed.
 Enjoy **gojs**.
 
@@ -28,6 +28,16 @@ the steps to build **gojs** are just pulling the related codes with go tool:
 
    3. now you get a standalone executable `bin/gojs`, copy it to anywhere you want. It's small
       and has no dependency, it is a full JavaScript interpreter.
+
+   4. the `db` module supports mysql and sqlite3 services, they need database drivers. If you
+      wants a gojs with db support, pull mysql/sqlite3 driver first.
+
+       ```bash
+       GOPATH=`pwd` go get github.com/go-sql-driver/mysql
+       GOPATH=`pwd` go get github.com/mattn/go-sqlite3
+       GOPATH=`pwd` go install -tags=db github.com/rosbit/gojs   # with -tags=db
+       ```
+      This version contains a builtin `db` module.
 
 ### Usage
 
