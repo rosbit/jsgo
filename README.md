@@ -25,12 +25,11 @@ the steps to build **gojs** are just pulling the related codes with go tool:
        GOPATH=`pwd` go get github.com/rosbit/duktape-bridge/duk-bridge-go
        GOPATH=`pwd` go get github.com/rosbit/gojs
        ```
-
    3. now you get a standalone executable `bin/gojs`, copy it to anywhere you want. It's small
       and has no dependency, it is a full JavaScript interpreter.
-
    4. the `db` module supports mysql and sqlite3 services, they need database drivers. If you
-      wants a gojs with db support, pull mysql/sqlite3 driver first.
+      want a `gojs` with db support, pull mysql/sqlite3 driver first. Suppose you have done step #2,
+      run the following command to build a new `gojs` standalone.
 
        ```bash
        GOPATH=`pwd` go get github.com/go-sql-driver/mysql
@@ -40,6 +39,10 @@ the steps to build **gojs** are just pulling the related codes with go tool:
       This version contains a builtin `db` module.
 
 ### Usage
+
+#### List built-in modules
+
+  - run `bin/gojs -m`
 
 #### Run simple codes
 
@@ -61,7 +64,7 @@ Suppose there's a js file `a.js`:
 Run `bin/gojs a.js`, That's all.
 
 There are sample JavaScript files under `src/github.com/rosbit/gojs/js_samples`, which will show how
-to use builtin gojs modules such as `http`, `fs`, `url`:
+to use builtin gojs modules such as `http`, `fs`, `url`, `db`:
 
    - httpd1.js (Node.js version)
 
