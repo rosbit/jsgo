@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/http/fcgi"
 	"strings"
 	"encoding/json"
 	sc "github.com/rosbit/gojs/server_counter"
@@ -25,21 +26,17 @@ type httpdHandlerParams struct {
 
 type HttpServer struct {
 	jsCallback *js.EcmaObject // function callback(request, response)
-	jsMod  *js.EcmaObject
 
 	listener net.Listener
 	serverStarted bool
+	isFastCGI bool
 
 	httpdHandlers chan httpdHandlerParams
 }
 
-func CreateHttpServer(jsCallback *js.EcmaObject) *HttpServer {
+func CreateHttpServer(jsCallback *js.EcmaObject, isFastCGI bool) *HttpServer {
 	httpdHandlers := make(chan httpdHandlerParams, 5) // if more than 5 requests at same time, they will blocked.
-	return &HttpServer{jsCallback:jsCallback, httpdHandlers:httpdHandlers}
-}
-
-func (s *HttpServer) saveModule(jsMod *js.EcmaObject) {
-	s.jsMod = jsMod
+	return &HttpServer{jsCallback:jsCallback, httpdHandlers:httpdHandlers, isFastCGI:isFastCGI}
 }
 
 func (s *HttpServer) Listen(port int, hostname string) error {
@@ -103,22 +100,9 @@ func writeResult(w http.ResponseWriter, res interface{}) {
 
 func (s *HttpServer) handleHttp(w http.ResponseWriter, r *http.Request, log *http_access_log) {
 	req := newJSRequest(r, log)
-	reqMod, err := jsEnv.CreateEcmascriptModule(req)
-	if err != nil {
-		writeError(w, "Failed to create request module", http.StatusInternalServerError)
-		return
-	}
-	defer jsEnv.DestroyEcmascriptModule(reqMod)
-
 	resp := &JSResponse{w}
-	respMod, err := jsEnv.CreateEcmascriptModule(resp)
-	if err != nil {
-		writeError(w, "Failed to create response module", http.StatusInternalServerError)
-		return
-	}
-	defer jsEnv.DestroyEcmascriptModule(respMod)
 
-	res, err := jsEnv.CallEcmascriptFunc(s.jsCallback, reqMod, respMod)
+	res, err := jsEnv.CallEcmascriptFunc(s.jsCallback, req, resp)
 	if err != nil {
 		writeError(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -156,11 +140,13 @@ func (s *HttpServer) accept() {
 		}
 	}()
 
-	http.Serve(s.listener, sm)
+	if !s.isFastCGI {
+		http.Serve(s.listener, sm)
+	} else {
+		fcgi.Serve(s.listener, sm)
+	}
 	s.httpdHandlers <- httpdHandlerParams{nil, nil, nil, nil} // let the go-routine done
 
-	jsEnv.DestroyEcmascriptModule(s.jsMod)
 	jsEnv.DestroyEcmascriptFunc(s.jsCallback)
-
 	s.Close()
 }

@@ -22,18 +22,11 @@ func NewHttpModule(ctx *js.JSEnv) interface{} {
 	return &HttpModule{}
 }
 
-func (m *HttpModule) CreateServer(jsCallback *js.EcmaObject) (*js.EcmaObject, error) {
+func (m *HttpModule) CreateServer(jsCallback *js.EcmaObject, isFastCGI bool) (*HttpServer, error) {
 	if jsCallback == nil {
 		return nil, fmt.Errorf("argument must be function(request, respsone)")
 	}
-	server := CreateHttpServer(jsCallback)
-	serverMod, err := jsEnv.CreateEcmascriptModule(server)
-	if err != nil {
-		jsEnv.DestroyEcmascriptFunc(jsCallback)
-		return nil, fmt.Errorf("Failed to create server: %v", err)
-	}
-	server.saveModule(serverMod)
-
-	return serverMod, nil
+	server := CreateHttpServer(jsCallback, isFastCGI)
+	return server, nil
 }
 

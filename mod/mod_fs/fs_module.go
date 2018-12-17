@@ -22,6 +22,10 @@ func NewFsModule(ctx *js.JSEnv) interface{} {
 	return &FsModule{make(map[int]*os.File)}
 }
 
+func (m *FsModule) OpenReader(path string) (*reader, error) {
+	return createReaderModule(path)
+}
+
 func stringToPosixFlags(flags string) int {
 	posixFlags := 0
 	switch flags {
