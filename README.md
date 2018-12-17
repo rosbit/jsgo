@@ -11,6 +11,11 @@ such as `http`, `fs`, `url`, `db`, etc. What I have done is just providing a sam
 implementing a JavaScript module in Go. One can produce more modules if needed.
 Enjoy **gojs**.
 
+### Binary and Download
+   If you don't to want to build `gojs`, go to [gojs binary](https://github.com/rosbit/gojs/releases)
+   to download the proper version. Save it as gojs, `chmod +x gojs`, it can be used as
+   a js interpreter, or as http server, etc..
+
 ### Build
 
 **gojs** only depends on [Duktape Bridge for Go](https://github.com/rosbit/duktape-bridge)

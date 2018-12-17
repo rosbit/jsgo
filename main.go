@@ -21,7 +21,7 @@ var options struct {
 	Version  bool   `short:"v" long:"version" description:"Print gojs version"`
 	Check    string `short:"c" long:"check" description:"Syntax check script without executing"`
 	Eval     string `short:"e" long:"eval" description:"Evaluate script"`
-    Module   bool   `short:"m" long:"list-module" description:"List builtin modules"`
+	Module   bool   `short:"m" long:"list-module" description:"List builtin modules"`
 }
 
 func main() {
