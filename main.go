@@ -69,8 +69,8 @@ func evalCode(jsCode string, args []string) int {
 	if res, err := jsEnv.Eval(jsCode); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		return 1
-	} else if res != nil {
-		fmt.Fprintf(os.Stderr, "==> %v\n", res)
+	} else {
+		showResult(res)
 	}
 	return 0
 }
@@ -95,14 +95,27 @@ func evalFile(args []string) int {
 	if res, err := jsEnv.EvalFile(args[0]); err != nil {
 		fmt.Fprintf(os.Stderr, "error to run %s: %v\n", args[0], err)
 		return 1
-	} else if res != nil {
-		fmt.Fprintf(os.Stderr, "==> %v\n", res)
+	} else {
+		showResult(res)
 	}
 
 	if sc.ServerRunning() {
 		<-exit
 	}
 	return 0
+}
+
+func showResult(res interface{}) {
+	if res == nil {
+		return
+	}
+
+	switch res.(type) {
+	case []byte:
+		fmt.Fprintf(os.Stderr, "==> %s\n", string(res.([]byte)))
+	default:
+		fmt.Fprintf(os.Stderr, "==> %v\n", res)
+	}
 }
 
 func showVersion() {
