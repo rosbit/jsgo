@@ -14,7 +14,7 @@ type reqResult struct {
 	Data []byte
 }
 
-func (m *HttpModule) Request(options map[string]interface{}, jsCallback *js.EcmaObject) (map[string]interface{}, error) {
+func (m *HttpModule) Request(options map[string]interface{}, jsCallback *js.EcmaObject) (*reqResult, error) {
 	defer func() {
 		if jsCallback != nil {
 			jsEnv.DestroyEcmascriptFunc(jsCallback)
@@ -86,7 +86,8 @@ func (m *HttpModule) Request(options map[string]interface{}, jsCallback *js.Ecma
 		if body, err := ioutil.ReadAll(res.Body); err != nil {
 			return nil, err
 		} else {
-			resp := map[string]interface{}{"statusCode":res.StatusCode, "headers": res.Header, "data": string(body)}
+			resp := &reqResult{res.StatusCode, res.Header, body}
+			// resp := map[string]interface{}{"statusCode":res.StatusCode, "headers": res.Header, "data": string(body)}
 			if jsCallback != nil {
 				jsEnv.CallEcmascriptFunc(jsCallback, resp)
 				return nil, nil

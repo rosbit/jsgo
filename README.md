@@ -8,8 +8,8 @@ framework related jobs with Go, and fulfill the changable logic in JS.
 **gojs** embeds the [Duktape](https://duktape.org) JavaScript, so it
 can be used as an Ecmascript E5/E5.1 interpreter. Right now, it contains some modules
 such as `http`, `fs`, `url`, `db`, etc. What I have done is just providing a sample of
-implementing a JavaScript module in Go. One can produce more modules if needed.
-Enjoy **gojs**.
+implementing a JavaScript module in Go. One can produce more modules or change modules
+if needed.  Enjoy **gojs**.
 
 ### Binary and Download
    If you don't to want to build `gojs`, go to [gojs binary](https://github.com/rosbit/gojs/releases)
@@ -22,26 +22,26 @@ Enjoy **gojs**.
 and [go-flags](https://github.com/jessevdk/go-flags),
 the steps to build **gojs** are just pulling the related codes with go tool:
 
-   1. at any directory, `mkdir src`
-   2. and run the following command:
+   1. At any directory, `mkdir src`
+   2. And run the following command:
 
        ```bash
        GOPATH=`pwd` go get github.com/jessevdk/go-flags
        GOPATH=`pwd` go get github.com/rosbit/duktape-bridge/duk-bridge-go
        GOPATH=`pwd` go get github.com/rosbit/gojs
        ```
-   3. now you get a standalone executable `bin/gojs`, copy it to anywhere you want. It's small
-      and has no dependency, it is a full JavaScript interpreter.
-   4. the `db` module supports mysql and sqlite3 services, they need database drivers. If you
-      want a `gojs` with db support, pull mysql/sqlite3 driver first. Suppose you have done step #2,
-      run the following command to build a new `gojs` standalone.
+   3. Now you get a standalone executable `bin/gojs`, copy it to anywhere you want. It's small
+      and has no runtime dependency, it is a full JavaScript interpreter.
+   4. The `db` module can be acted as a mysql/sqlite3 client. To build a `gojs` with db support,
+      pull mysql/sqlite3 driver first. Suppose you have done step #2, run the following command
+      to build a new `gojs` standalone. Also this `gojs` has no runtime dependency.
 
        ```bash
        GOPATH=`pwd` go get github.com/go-sql-driver/mysql
        GOPATH=`pwd` go get github.com/mattn/go-sqlite3
        GOPATH=`pwd` go install -tags=db github.com/rosbit/gojs   # with -tags=db
        ```
-      This version contains a builtin `db` module.
+      Run `bin/gojs -m`, `db` will appear in the list.
 
 ### Usage
 
