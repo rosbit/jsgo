@@ -11,7 +11,7 @@ import (
  */
 
 func listModules() {
-	fmt.Printf("Built-in moduels in gojs\n")
+	fmt.Printf("Built-in moduels in jsgo\n")
 	i := 0
 	for m, _ := range mods {
 		i++

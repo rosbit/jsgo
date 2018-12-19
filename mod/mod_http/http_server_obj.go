@@ -14,7 +14,7 @@ import (
 	"net/http/fcgi"
 	"strings"
 	"encoding/json"
-	sc "github.com/rosbit/gojs/server_counter"
+	sc "github.com/rosbit/jsgo/server_counter"
 )
 
 type httpdHandlerParams struct {

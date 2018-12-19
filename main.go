@@ -5,7 +5,7 @@ import (
 	"os"
 	"github.com/jessevdk/go-flags"
 	js "github.com/rosbit/duktape-bridge/duk-bridge-go"
-	sc "github.com/rosbit/gojs/server_counter"
+	sc "github.com/rosbit/jsgo/server_counter"
 )
 
 var (
@@ -18,7 +18,7 @@ var (
 )
 
 var options struct {
-	Version  bool   `short:"v" long:"version" description:"Print gojs version"`
+	Version  bool   `short:"v" long:"version" description:"Print jsgo version"`
 	Check    string `short:"c" long:"check" description:"Syntax check script without executing"`
 	Eval     string `short:"e" long:"eval" description:"Evaluate script"`
 	Module   bool   `short:"m" long:"list-module" description:"List builtin modules"`
