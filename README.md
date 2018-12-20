@@ -19,29 +19,21 @@ if needed.  Enjoy **jsgo**.
 ### Build
 
 **jsgo** only depends on [Duktape Bridge for Go](https://github.com/rosbit/duktape-bridge)
-and [go-flags](https://github.com/jessevdk/go-flags),
-the steps to build **jsgo** are just pulling the related codes with go tool:
+and [go-flags](https://github.com/jessevdk/go-flags). To build an executable `jsgo`, at any
+directory, perform the command:
 
-   1. At any directory, `mkdir src`
-   2. And run the following command:
+   ```bash
+   GOPATH=`pwd` go get -u github.com/rosbit/jsgo
+   ```
+Now you get a standalone executable `bin/jsgo`, copy it to anywhere you want. It's small
+and has no runtime dependency, it is a full JavaScript interpreter.
 
-       ```bash
-       GOPATH=`pwd` go get github.com/jessevdk/go-flags
-       GOPATH=`pwd` go get github.com/rosbit/duktape-bridge/duk-bridge-go
-       GOPATH=`pwd` go get github.com/rosbit/jsgo
-       ```
-   3. Now you get a standalone executable `bin/jsgo`, copy it to anywhere you want. It's small
-      and has no runtime dependency, it is a full JavaScript interpreter.
-   4. The `db` module can be acted as a mysql/sqlite3 client. To build a `jsgo` with db support,
-      pull mysql/sqlite3 driver first. Suppose you have done step #2, run the following command
-      to build a new `jsgo` standalone. Also this `jsgo` has no runtime dependency.
+If you want a `jsgo` with `db` module, which can be acted as a mysql/sqlite3 client. Run this command:
 
-       ```bash
-       GOPATH=`pwd` go get github.com/go-sql-driver/mysql
-       GOPATH=`pwd` go get github.com/mattn/go-sqlite3
-       GOPATH=`pwd` go install -tags=db github.com/rosbit/jsgo   # with -tags=db
-       ```
-      Run `bin/jsgo -m`, `db` will appear in the list.
+   ```bash
+   GOPATH=`pwd` go get -u -tags=db github.com/rosbit/jsgo   # with -tags=db
+   ```
+Run `bin/jsgo -m`, `db` will appear in the list. Also this `jsgo` has no runtime dependency.
 
 ### Usage
 
