@@ -10,9 +10,9 @@ package main
 
 import (
 	js "github.com/rosbit/duktape-bridge/duk-bridge-go"
-	"github.com/rosbit/jsgo/mod/mod_http"
-	"github.com/rosbit/jsgo/mod/mod_fs"
-	"github.com/rosbit/jsgo/mod/mod_url"
+	"jsgo/mod/mod_http"
+	"jsgo/mod/mod_fs"
+	"jsgo/mod/mod_url"
 )
 
 type fnNewModule func (*js.JSEnv) interface{}

@@ -5,7 +5,7 @@ import (
 	"os"
 	"github.com/jessevdk/go-flags"
 	js "github.com/rosbit/duktape-bridge/duk-bridge-go"
-	sc "github.com/rosbit/jsgo/server_counter"
+	sc "jsgo/server_counter"
 )
 
 var (
