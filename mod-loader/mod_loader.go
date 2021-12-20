@@ -1,6 +1,7 @@
-package main
+package ml
 
 import (
+	js "github.com/rosbit/duktape-bridge/duk-bridge-go"
 	"fmt"
 )
 
@@ -10,7 +11,7 @@ import (
  * Dec. 6, 2018
  */
 
-func listModules() {
+func ListModules() {
 	fmt.Printf("Built-in moduels in jsgo\n")
 	i := 0
 	for m, _ := range mods {
@@ -20,7 +21,13 @@ func listModules() {
 }
 
 // ------------- implement interface GoModuleLoader -----------------
-type MinNodeModuleLoader struct {}
+type MinNodeModuleLoader struct {
+	jsEnv *js.JSEnv
+}
+
+func (loader *MinNodeModuleLoader) SetJSEnv(jsEnv *js.JSEnv) {
+	loader.jsEnv = jsEnv
+}
 
 func (loader *MinNodeModuleLoader) GetExtName() string {
 	return ".loader_for_builtin_modules"
@@ -30,7 +37,7 @@ func (loader *MinNodeModuleLoader) LoadModule(modHome string, modName string) in
 	if fn, ok := mods[modName]; !ok {
 		return nil
 	} else {
-		return fn(jsEnv)
+		return fn(loader.jsEnv)
 	}
 }
 

@@ -5,7 +5,8 @@ import (
 	"os"
 	"github.com/jessevdk/go-flags"
 	js "github.com/rosbit/duktape-bridge/duk-bridge-go"
-	sc "jsgo/server_counter"
+	sc "github.com/rosbit/jsgo/server_counter"
+	ml "github.com/rosbit/jsgo/mod-loader"
 )
 
 var (
@@ -40,7 +41,7 @@ func main() {
 	}
 
 	if options.Module {
-		listModules()
+		ml.ListModules()
 		os.Exit(0)
 	}
 
@@ -62,7 +63,7 @@ func main() {
 }
 
 func evalCode(jsCode string, args []string) int {
-	jsEnv = js.NewEnv(&MinNodeModuleLoader{})
+	jsEnv = js.NewEnv(&ml.MinNodeModuleLoader{})
 	defer jsEnv.Destroy()
 
 	setEnv(jsEnv, args)
@@ -88,7 +89,7 @@ func evalFile(args []string) int {
 
 	go sc.CountServer(exit)
 
-	jsEnv = js.NewEnv(&MinNodeModuleLoader{})
+	jsEnv = js.NewEnv(&ml.MinNodeModuleLoader{})
 	defer jsEnv.Destroy()
 
 	setEnv(jsEnv, args)
@@ -131,7 +132,7 @@ func showVersion() {
 }
 
 func checkSyntax(jsFile string) int {
-	jsEnv = js.NewEnv(&MinNodeModuleLoader{})
+	jsEnv = js.NewEnv(&ml.MinNodeModuleLoader{})
 	defer jsEnv.Destroy()
 
 	err := jsEnv.SyntaxCheckFile(jsFile)

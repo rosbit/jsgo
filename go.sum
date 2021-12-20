@@ -1,4 +1,4 @@
 github.com/jessevdk/go-flags v1.4.0 h1:4IU2WS7AumrZ/40jfhf4QVDMsQwqA7VEHozFRrGARJA=
 github.com/jessevdk/go-flags v1.4.0/go.mod h1:4FA24M0QyGHXBuZZK/XkWh8h0e1EYbRYJSGM75WSRxI=
-github.com/rosbit/duktape-bridge v0.0.0-20211218031158-24fe34696190 h1:5wwPz8z8E5hyCtdrFEaENGpotsfpF3UTkVaJ7AaV+w0=
-github.com/rosbit/duktape-bridge v0.0.0-20211218031158-24fe34696190/go.mod h1:5Yjv70wRIeaoELspSS6sc/1SUegjAJ7NDfD2PW3/IeI=
+github.com/rosbit/duktape-bridge v0.0.1 h1:JyIP1DhbECbeEOYFdJfldn9/wgGUoyb7xCSymst+wtM=
+github.com/rosbit/duktape-bridge v0.0.1/go.mod h1:5Yjv70wRIeaoELspSS6sc/1SUegjAJ7NDfD2PW3/IeI=

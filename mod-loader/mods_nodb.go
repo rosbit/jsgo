@@ -1,6 +1,6 @@
 // +build !db
 
-package main
+package ml
 
 /**
  * list of builtin modules
@@ -10,9 +10,9 @@ package main
 
 import (
 	js "github.com/rosbit/duktape-bridge/duk-bridge-go"
-	"jsgo/mod/mod_http"
-	"jsgo/mod/mod_fs"
-	"jsgo/mod/mod_url"
+	"github.com/rosbit/jsgo/mods/mod_http"
+	"github.com/rosbit/jsgo/mods/mod_fs"
+	"github.com/rosbit/jsgo/mods/mod_url"
 )
 
 type fnNewModule func (*js.JSEnv) interface{}
